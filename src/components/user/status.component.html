@@ -1,0 +1,25 @@
+<div class="max-w-4xl mx-auto">
+  <h2 class="text-3xl font-bold mb-6">Your Reported Issues</h2>
+
+  @if (issues().length > 0) {
+    <div class="space-y-4">
+      @for (issue of issues(); track issue.id) {
+        <div class="border border-gray-200 dark:border-gray-700 rounded-lg p-4 flex flex-col sm:flex-row justify-between items-start sm:items-center">
+          <div class="flex-1">
+            <h3 class="font-bold text-lg">{{ issue.title }}</h3>
+            <p class="text-sm text-gray-600 dark:text-gray-400">{{ issue.location }} &bull; Reported on {{ issue.reportedDate | date:'mediumDate' }}</p>
+          </div>
+          <div class="mt-3 sm:mt-0">
+            <span class="px-3 py-1 text-xs font-semibold rounded-full" [class]="getStatusColor(issue.status)">
+              {{ issue.status }}
+            </span>
+          </div>
+        </div>
+      }
+    </div>
+  } @else {
+    <div class="text-center py-16 border-2 border-dashed border-gray-300 dark:border-gray-700 rounded-lg">
+      <p class="text-gray-500 dark:text-gray-400">You have not reported any issues yet.</p>
+    </div>
+  }
+</div>

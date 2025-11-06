@@ -1,0 +1,5 @@
+{
+  "name": "Complaint Registration Portal",
+  "description": "A portal for users to register complaints about civic issues and for admins to manage them. This application features separate portals for users and administrators with a clean, minimalist black-and-white design.",
+  "requestFramePermissions": []
+}

@@ -1,0 +1,28 @@
+<div class="min-h-screen bg-white text-black dark:bg-black dark:text-white">
+  <header class="border-b border-gray-200 dark:border-gray-800">
+    <nav class="container mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-16">
+        <div class="flex items-center">
+          <a routerLink="/user" class="text-xl font-bold">Portal</a>
+        </div>
+        <div class="hidden sm:block">
+          <div class="ml-10 flex items-center space-x-4">
+            <a routerLink="issue-report" routerLinkActive="font-bold border-b-2 border-black dark:border-white" [routerLinkActiveOptions]="{exact: true}" class="px-3 py-2 text-sm font-medium hover:font-bold transition-all">Issue Report</a>
+            <a routerLink="status" routerLinkActive="font-bold border-b-2 border-black dark:border-white" [routerLinkActiveOptions]="{exact: true}" class="px-3 py-2 text-sm font-medium hover:font-bold transition-all">Status</a>
+            <a routerLink="help-support" routerLinkActive="font-bold border-b-2 border-black dark:border-white" [routerLinkActiveOptions]="{exact: true}" class="px-3 py-2 text-sm font-medium hover:font-bold transition-all">Help & Support</a>
+            <app-theme-toggle></app-theme-toggle>
+          </div>
+        </div>
+        <div class="sm:hidden flex items-center">
+          <app-theme-toggle></app-theme-toggle>
+          <!-- Mobile menu button can be added here -->
+        </div>
+      </div>
+    </nav>
+  </header>
+  <main>
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <router-outlet></router-outlet>
+    </div>
+  </main>
+</div>

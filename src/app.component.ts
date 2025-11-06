@@ -1,0 +1,14 @@
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { RouterOutlet } from '@angular/router';
+import { ThemeService } from './services/theme.service';
+
+@Component({
+  selector: 'app-root',
+  template: ` <router-outlet></router-outlet> `,
+  styles: [':host { display: block; }'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [RouterOutlet],
+})
+export class AppComponent {
+  private themeService = inject(ThemeService);
+}

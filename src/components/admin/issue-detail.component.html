@@ -1,0 +1,72 @@
+<div>
+  @if (issue(); as issue) {
+    <div class="max-w-4xl mx-auto">
+      <div class="flex justify-between items-center mb-6">
+          <h2 class="text-3xl font-bold">Issue Details</h2>
+          <span class="px-4 py-1.5 text-sm font-semibold rounded-full" [class]="getStatusColor(issue.status)">
+            {{ issue.status }}
+          </span>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="md:col-span-2 space-y-6">
+          <div class="bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-4">
+            <h3 class="font-bold text-lg mb-2">Title</h3>
+            <p>{{ issue.title }}</p>
+          </div>
+          <div class="bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-4">
+            <h3 class="font-bold text-lg mb-2">Description</h3>
+            <p class="whitespace-pre-wrap">{{ issue.description }}</p>
+          </div>
+          @if (issue.remarks) {
+          <div class="bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-4">
+            <h3 class="font-bold text-lg mb-2">Current Remarks</h3>
+            <p class="whitespace-pre-wrap">{{ issue.remarks }}</p>
+          </div>
+          }
+           @if (issue.mediaUrl || issue.mediaFileName) {
+            <div class="bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-4">
+              <h3 class="font-bold text-lg mb-2">Attached Media</h3>
+              @if (issue.mediaUrl) {
+                <img [src]="issue.mediaUrl" alt="Issue Media" class="rounded-md max-h-64">
+              } @else {
+                <p>{{ issue.mediaFileName }}</p>
+              }
+            </div>
+          }
+        </div>
+        <div class="space-y-6">
+           <div class="bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-4">
+            <h3 class="font-bold text-lg mb-2">Reporter Info</h3>
+            <p><span class="font-semibold">ID:</span> {{ issue.id }}</p>
+            <p><span class="font-semibold">Name:</span> {{ issue.reporter }}</p>
+            <p><span class="font-semibold">Date:</span> {{ issue.reportedDate | date:'fullDate' }}</p>
+            <p><span class="font-semibold">Location:</span> {{ issue.location }}</p>
+          </div>
+          <div class="bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-4">
+            <h3 class="font-bold text-lg mb-2">Update Status</h3>
+            <div class="space-y-4">
+               <div>
+                <label for="status" class="block text-sm font-medium">Status</label>
+                <select id="status" [(ngModel)]="newStatus" class="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:ring-black focus:border-black dark:bg-gray-900 dark:border-gray-600 dark:text-white">
+                    <option value="Pending">Pending</option>
+                    <option value="In Progress">In Progress</option>
+                    <option value="Resolved">Resolved</option>
+                </select>
+              </div>
+              <div>
+                <label for="remark" class="block text-sm font-medium">Add Remark</label>
+                <textarea id="remark" [(ngModel)]="newRemark" rows="3" class="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:ring-black focus:border-black dark:bg-gray-900 dark:border-gray-600 dark:text-white"></textarea>
+              </div>
+              <button (click)="saveChanges()" class="w-full bg-blue-600 text-white font-semibold py-2 px-4 rounded-md hover:bg-blue-700 transition-colors">
+                Save Changes
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  } @else {
+    <p class="text-center text-gray-500">Issue not found.</p>
+  }
+</div>

@@ -1,0 +1,43 @@
+<div class="max-w-xl mx-auto">
+  <h3 class="text-2xl font-bold mb-4">Notify Authority</h3>
+  
+  @if (!notificationSent()) {
+    <div class="space-y-6 bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-6">
+      <div>
+        <label for="issue" class="block text-sm font-medium">Select Issue</label>
+        <select id="issue" [(ngModel)]="selectedIssueId" class="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:ring-black focus:border-black dark:bg-gray-900 dark:border-gray-600 dark:text-white">
+          <option value="" disabled>Choose an issue</option>
+          @for (issue of issues(); track issue.id) {
+            <option [value]="issue.id">{{ issue.id }} - {{ issue.title }}</option>
+          }
+        </select>
+      </div>
+
+      <div>
+        <label for="department" class="block text-sm font-medium">Select Department</label>
+        <select id="department" [(ngModel)]="selectedDepartment" class="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:ring-black focus:border-black dark:bg-gray-900 dark:border-gray-600 dark:text-white">
+          <option value="" disabled>Choose a department</option>
+          @for (dept of departments; track dept) {
+            <option [value]="dept">{{ dept }}</option>
+          }
+        </select>
+      </div>
+      
+      <div>
+        <label for="message" class="block text-sm font-medium">Message</label>
+        <textarea id="message" [(ngModel)]="message" rows="5" class="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:ring-black focus:border-black dark:bg-gray-900 dark:border-gray-600 dark:text-white" placeholder="Add a message for the authority..."></textarea>
+      </div>
+
+      <div class="flex justify-end">
+        <button (click)="sendNotification()" [disabled]="!selectedIssueId() || !selectedDepartment() || !message()" class="bg-blue-600 text-white font-semibold py-2 px-6 rounded-md hover:bg-blue-700 transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed">
+          Send Notification
+        </button>
+      </div>
+    </div>
+  } @else {
+    <div class="bg-green-100 border-green-200 text-green-800 dark:bg-green-900/50 dark:border-green-800 dark:text-green-300 rounded-lg p-6 text-center">
+      <h4 class="font-bold text-lg">Notification Sent Successfully!</h4>
+      <p>The selected department has been notified about the issue.</p>
+    </div>
+  }
+</div>

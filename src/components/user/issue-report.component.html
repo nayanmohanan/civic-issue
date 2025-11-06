@@ -1,0 +1,93 @@
+<div class="max-w-2xl mx-auto">
+  <h2 class="text-3xl font-bold mb-6">Report an Issue</h2>
+  
+  @if (!showPreview()) {
+    <form [formGroup]="issueForm" (ngSubmit)="togglePreview()" novalidate class="space-y-6">
+      <div>
+        <label for="title" class="block text-sm font-medium">Issue Title</label>
+        <input type="text" id="title" formControlName="title" class="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:ring-black focus:border-black dark:bg-gray-800 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-white dark:focus:border-white">
+        @if (issueForm.get('title')?.invalid && issueForm.get('title')?.touched) {
+          <p class="text-red-500 text-xs mt-1">Title is required (min 5 characters).</p>
+        }
+      </div>
+
+      <div>
+        <label for="description" class="block text-sm font-medium">Issue Description</label>
+        <textarea id="description" formControlName="description" rows="4" class="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:ring-black focus:border-black dark:bg-gray-800 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-white dark:focus:border-white"></textarea>
+         @if (issueForm.get('description')?.invalid && issueForm.get('description')?.touched) {
+          <p class="text-red-500 text-xs mt-1">Description is required (min 20 characters).</p>
+        }
+      </div>
+
+      <div>
+        <label for="location" class="block text-sm font-medium">Select Location</label>
+        <select id="location" formControlName="location" class="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:ring-black focus:border-black dark:bg-gray-800 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-white dark:focus:border-white">
+          <option value="" disabled>Choose a location</option>
+          @for (loc of locations; track loc) {
+            <option [value]="loc">{{ loc }}</option>
+          }
+        </select>
+        @if (issueForm.get('location')?.invalid && issueForm.get('location')?.touched) {
+          <p class="text-red-500 text-xs mt-1">Location is required.</p>
+        }
+      </div>
+
+      <div>
+        <label for="media" class="block text-sm font-medium">Upload Media (Image/Video)</label>
+        <input type="file" id="media" (change)="onFileSelected($event)" accept="image/*,video/*" class="mt-1 block w-full text-sm text-gray-500 dark:text-gray-400 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-gray-100 file:text-black hover:file:bg-gray-200 dark:file:bg-gray-700 dark:file:text-gray-200 dark:hover:file:bg-gray-600">
+        @if (selectedFile()) {
+          <p class="text-gray-600 dark:text-gray-400 text-sm mt-2">Selected file: {{ selectedFile()?.name }}</p>
+        }
+      </div>
+      
+      <div class="flex justify-end">
+        <button type="submit" class="bg-blue-600 text-white font-semibold py-2 px-6 rounded-md hover:bg-blue-700 transition-colors">
+          Next (Preview Issue)
+        </button>
+      </div>
+    </form>
+  } @else {
+    <div class="border border-gray-200 dark:border-gray-700 rounded-lg p-6 space-y-4">
+      <h3 class="text-2xl font-bold border-b pb-2 dark:border-gray-700">Preview Your Report</h3>
+      <div>
+        <h4 class="font-bold">Title:</h4>
+        <p>{{ issueForm.value.title }}</p>
+      </div>
+      <div>
+        <h4 class="font-bold">Description:</h4>
+        <p class="whitespace-pre-wrap">{{ issueForm.value.description }}</p>
+      </div>
+      <div>
+        <h4 class="font-bold">Location:</h4>
+        <p>{{ issueForm.value.location }}</p>
+      </div>
+      @if (selectedFile()) {
+        <div>
+          <h4 class="font-bold">Attached Media:</h4>
+          <p>{{ selectedFile()?.name }}</p>
+        </div>
+      }
+      <div class="flex justify-between pt-6">
+        <button (click)="togglePreview()" class="bg-gray-200 text-black font-semibold py-2 px-6 rounded-md hover:bg-gray-300 dark:bg-gray-700 dark:text-white dark:hover:bg-gray-600 transition-colors">
+          Back to Edit
+        </button>
+        <button (click)="onSubmit()" class="bg-blue-600 text-white font-semibold py-2 px-6 rounded-md hover:bg-blue-700 transition-colors">
+          Submit
+        </button>
+      </div>
+    </div>
+  }
+</div>
+<app-modal [isOpen]="showSuccessModal()" (close)="closeModalAndNavigate()">
+  <span modal-title>Submission Successful</span>
+  <div modal-body>
+    <p class="text-gray-700 dark:text-gray-300">
+      Your issue has been reported successfully. You can track its status on the 'Status' page.
+    </p>
+  </div>
+  <div modal-footer>
+     <button (click)="closeModalAndNavigate()" class="bg-blue-600 text-white font-semibold py-2 px-6 rounded-md hover:bg-blue-700 transition-colors">
+        View Status
+     </button>
+  </div>
+</app-modal>
